@@ -1,24 +1,8 @@
-# tlce
+# 非想天則でラグを計測するためのもの
+Windows 64bitのみ対応
+AutoPunchはどうなるか不明
+過剰にバグがあったらごめんなさい
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 備考
+Ping値はフレーム換算してあります
+Ping値100はタイムアウトになったものです

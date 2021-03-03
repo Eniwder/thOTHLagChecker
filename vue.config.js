@@ -6,7 +6,7 @@ module.exports = {
         productName: "th123LagChecker",
         appId: "eniel.tlce",
         win: {
-          icon: 'src/assets/icon.png',
+          icon: 'src/assets/icon.ico',
           target: [
             {
               target: 'portable', // 'zip', 'nsis', 'portable'
