@@ -11,7 +11,7 @@
 
 起動すると以下のような画面になるので、IP:PORT の欄にいつもの書式をコピペして CHECK ボタンを押してください。
 
-![動作イメージ](https://user-images.githubusercontent.com/1768700/109812297-3eb20400-7c6f-11eb-994b-5f29c510e988.PNG)
+<img src="https://github.com/Eniwder/thOTHLagChecker/blob/main/sampleImg.png" width="400px">
 
 ## 計測結果について
 
