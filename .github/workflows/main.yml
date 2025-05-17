@@ -28,7 +28,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const tag = context.ref.replace("refs/tags/", "");
+            const tag = "latest";
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
