@@ -3,23 +3,23 @@
     <v-container class="grey lighten-5">
       <v-row no-gutters style="height: 64px">
         <v-col>
-          <v-text-field label="IP:PORT" hide-details="auto" @keydown="changeIpport" v-model="inputIpport"
-            :rules="[ipportRule]" @keydown.enter="checkLag"></v-text-field>
+          <v-text-field label="IP:PORT" hide-details="auto" @update:model-value="changeIpport" v-model="inputIpport"
+            :rules="[ipportRule]"></v-text-field>
         </v-col>
       </v-row>
       <v-row no-gutters style="height: 48px;margin: 16px; text-align: center;">
         <v-col>
-          <v-btn depressed color="blue-grey" raised :disabled="!submitReady" @click="checkLag"
+          <v-btn depressed color="blue-grey" raised :disabled="!submitReady" @click="checkLag(true)"
             :loading="checkbtn.progress">
             Check
           </v-btn>
         </v-col>
-        <v-col>
-          <v-btn depressed color="blue-grey" raised :disabled="!submitReady" @click="checkLag"
+        <!-- <v-col>
+          <v-btn depressed color="blue-grey" raised :disabled="!submitReady" @click="checkLag(true)"
             :loading="checkbtn.progress">
             オートパンチ用Check
           </v-btn>
-        </v-col>
+        </v-col> -->
       </v-row>
       <v-row no-gutters>
         <v-col class="echart-wrapper">
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onBeforeUnmount, reactive } from 'vue';
+import { ref, computed, onBeforeUnmount, reactive, nextTick } from 'vue';
 import VChart from 'vue-echarts';
 import { LineChart } from 'echarts/charts';
 import { use } from 'echarts/core';
@@ -69,7 +69,7 @@ const option = reactive({
   },
   xAxis: {
     type: 'category',
-    data: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    data: [1, 2, 3, 4, 5, 6, 7]
   },
   yAxis: {
     type: 'value',
@@ -100,29 +100,33 @@ const ipportRule = computed(() => {
 const submitReady = computed(() => ipportRule.value === true);
 
 function changeIpport() {
-  inputIpport.value = inputIpport.value.trim();
+  nextTick(() => {
+    inputIpport.value = inputIpport.value.trim();
+  });
 }
 
-function checkLag() {
+function checkLag(isAP) {
   if (!submitReady.value) return;
   checkbtn.progress = true;
   option.series[0].data = [];
-  ping(inputIpport.value);
+  ping(inputIpport.value, isAP);
 }
 
-function ping(ipport) {
+function ping(ipport, isAP) {
   window.ipcRenderer.on('result-ping', (event, arg) => {
+    console.log(event, arg);
     if (arg === 'end') {
       window.ipcRenderer.removeAllListeners('result-ping');
-      const result = option.series[0].data;
       checkbtn.progress = false;
     } else {
       option.series[0].data.push(parseFloat(arg) || 100);
-      const chart = chartRef.value?.chartInstance;
-      if (chart) chart.update();
     }
   });
-  window.ipcRenderer.send('do-ping', ipport);
+  if (isAP) {
+    window.ipcRenderer.send('do-ping-ap', ipport);
+  } else {
+    window.ipcRenderer.send('do-ping', ipport);
+  }
 }
 
 onBeforeUnmount(() => {
@@ -137,6 +141,6 @@ onBeforeUnmount(() => {
 
 .echart-wrapper {
   width: 100vw;
-  height: 50vh;
+  height: 70vh;
 }
 </style>
