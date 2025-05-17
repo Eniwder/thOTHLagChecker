@@ -45,6 +45,7 @@ ipcMain.on('do-ping-ap', async (event, arg) => {
 
   function holepunchProcess(msg, rinfo) {
     if (!punched && msg.length >= 8) {
+      console.log('オートパンチサーバーから情報取得成功');
       // 最初のメッセージ → ホストの情報
       const peerPort = msg.readUInt16BE(0);
       peerNatPort = msg.readUInt16BE(2);
@@ -66,11 +67,11 @@ ipcMain.on('do-ping-ap', async (event, arg) => {
       // 2回目以降 → 相手からの応答
       // 既に同じ相手と計測をした場合、holepunchが既に実行中の可能性があるので検知
       if (msg[0] === 0x00 && rinfo.address === peerIp) {
+        console.log(`recv holepunch reply from ${peerIp}`);
         punched = true;
+        client.removeListener('message', holepunchProcess);
+        ipcMain.emit('do-ping', event, `${peerIp}:${peerNatPort}`);
       }
-      console.log(`recv holepunch`);
-      client.removeListener('message', holepunchProcess);
-      ipcMain.emit('do-ping', event, `${peerIp}:${peerNatPort}`);
     }
   }
 
