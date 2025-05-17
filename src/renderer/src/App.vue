@@ -14,16 +14,10 @@
             Check
           </v-btn>
         </v-col>
-        <!-- <v-col>
-          <v-btn depressed color="blue-grey" raised :disabled="!submitReady" @click="checkLag(true)"
-            :loading="checkbtn.progress">
-            オートパンチ用Check
-          </v-btn>
-        </v-col> -->
       </v-row>
       <v-row no-gutters>
         <v-col class="echart-wrapper">
-          <VChart class="chart" :option="option" autoresize ref="chart" />
+          <VChart class="chart" :option="option" autoresize />
         </v-col>
       </v-row>
     </v-container>
@@ -58,8 +52,6 @@ use([
   CanvasRenderer,
 ]);
 
-const chart = ref(null);
-
 const option = reactive({
   tooltip: {
     trigger: 'axis',
@@ -86,7 +78,6 @@ const option = reactive({
   ]
 });
 const inputIpport = ref('');
-const chartRef = ref(null);
 const checkbtn = reactive({ progress: false });
 
 const ipportRule = computed(() => {

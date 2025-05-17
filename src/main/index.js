@@ -183,13 +183,10 @@ async function createWindow() {
       ...(process.platform === 'linux' ? { icon } : {}),
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
-    }
+    },
+    title: '非想天則ラグチェッカー',
   });
   mainWindow.setMenuBarVisibility(false);
-
-  // mainWindow.on('ready-to-show', () => {
-  //   mainWindow.show();
-  // });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
