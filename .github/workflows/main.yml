@@ -57,7 +57,7 @@ jobs:
               }
             }
             const uploadUrl = release.data.upload_url.replace(/\{\?name,label\}$/, "");
-            core.setOutput("upload_url", release);
+            core.setOutput("upload_url", release.data.upload_url);
         id: get_release_and_clean
         
       - name: Upload exe asset to release
