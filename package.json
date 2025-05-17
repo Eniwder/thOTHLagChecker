@@ -7,9 +7,10 @@
   "scripts": {
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "vite build",
-    "preview": "vite preview",
-    "prebuild": "electron-vite build"
+    "prebuild": "electron-vite build",
+    "build": "electron-builder",
+    "dist": "npm run prebuild && electron-builder",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
@@ -22,6 +23,11 @@
     "vue": "^3.5.13",
     "vue-echarts": "^7.0.3",
     "vuetify": "^3.8.1"
+  },
+  "build": {
+    "win": {
+      "target": "portable"
+    }
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
