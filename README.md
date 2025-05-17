@@ -5,7 +5,8 @@
 
 ## ダウンロード先
 
-[Download](https://github.com/Eniwder/thOTHLagChecker/releases/download/v1.0.1/th123LagChecker.1.0.1.zip)
+[Releases](https://github.com/Eniwder/thOTHLagChecker/releases/tag/latest)の「▼Assets」にある「
+th123lagchecker.exe」をクリックでダウンロードできます。
 
 ## 使い方
 
