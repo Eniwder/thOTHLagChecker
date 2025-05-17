@@ -13,6 +13,8 @@
 
 <img src="https://github.com/Eniwder/thOTHLagChecker/blob/main/sampleImg.png" width="400px">
 
+初回起動時にFirewallの画面が出た場合は許可しないと動作しません。
+
 ## 計測結果について
 
 - ラグが2F以下なら正常に対戦が成立すると思います

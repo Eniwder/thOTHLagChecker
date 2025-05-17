@@ -8,8 +8,8 @@
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "prebuild": "electron-vite build",
-    "build": "electron-builder",
-    "dist": "npm run prebuild && electron-builder",
+    "build": "electron-builder --win --x64",
+    "dist": "npm run prebuild && electron-builder --win --x64",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -27,7 +27,10 @@
   "build": {
     "win": {
       "target": "portable"
-    }
+    },
+    "asar": true,
+    "mac": null,
+    "linux": null
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
