@@ -30,7 +30,8 @@
     },
     "asar": true,
     "mac": null,
-    "linux": null
+    "linux": null,
+    "artifactName": "th123lagchecker_${version}.${ext}"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
