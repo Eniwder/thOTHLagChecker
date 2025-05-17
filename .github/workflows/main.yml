@@ -2,9 +2,8 @@ name: Build and Upload Electron App
 
 on:
   push:
-    tags:
-      - 'v*'  # v1.2.0 のようなタグ push に反応
-
+    branches:
+      - main
 jobs:
   build:
     runs-on: windows-latest
