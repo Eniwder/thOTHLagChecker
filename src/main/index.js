@@ -6,6 +6,7 @@ import { promises as dns } from 'dns';
 import dgram from 'dgram';
 
 const MY_PORT = 8007;
+let mainWindow;
 
 async function getIP(domain) {
   try {
@@ -17,7 +18,6 @@ async function getIP(domain) {
 }
 
 const client = dgram.createSocket('udp4');
-client.bind(MY_PORT);
 
 ipcMain.on('do-ping-ap', async (event, arg) => {
 
@@ -176,7 +176,7 @@ ipcMain.on('do-ping', (event, arg) => {
 
 async function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 600,
     height: 600,
     minWidth: 600,
@@ -203,29 +203,26 @@ async function createWindow() {
   }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron');
+const gotTheLock = app.requestSingleInstanceLock();
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window);
+if (!gotTheLock) {
+  // すでにインスタンスが存在する場合は終了
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+  app.quit();
+} else {
+  app.whenReady().then(() => {
+    createWindow();
+    client.bind(MY_PORT);
+    electronApp.setAppUserModelId(app.getName());
+    app.on('browser-window-created', (_, window) => {
+      optimizer.watchWindowShortcuts(window);
+    });
   });
+}
 
-
-  createWindow();
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
