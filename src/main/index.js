@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources/icon.ico?asset';
+import icon from '../../build/icon.ico?asset';
 import { promises as dns } from 'dns';
 import dgram from 'dgram';
 
