@@ -13,7 +13,7 @@
 
 <img src="https://github.com/Eniwder/thOTHLagChecker/blob/main/sampleImg.png" width="400px">
 
-初回起動時にFirewallの画面が出た場合は許可しないと動作しません。
+初回起動時にWindows Defenderの保護設定やFirewallの画面が出た場合は許可しないと動作しません。
 
 ## 計測結果について
 
