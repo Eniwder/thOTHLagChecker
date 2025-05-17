@@ -65,7 +65,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          upload_url: ${{ steps.get_release_and_clean.outputs.upload_url }}
           asset_path: dist/th123lagchecker.exe
           asset_name: th123lagchecker.exe
           asset_content_type: application/octet-stream
