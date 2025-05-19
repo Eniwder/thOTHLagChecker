@@ -42,6 +42,7 @@ ipcMain.on('do-ping-ap', async (event, arg) => {
   let punched = false;
   let peerIp = '';
   let peerNatPort = 0;
+  let punchTimeouts = [];
 
   function holepunchProcess(msg, rinfo) {
     if (!punched && msg.length >= 8) {
@@ -53,20 +54,23 @@ ipcMain.on('do-ping-ap', async (event, arg) => {
       console.log(`Host:${peerIp}:${peerPort}/NAT Port:${peerNatPort}`);
 
       // ホールパンチ
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
+      for (let i = 0; i < 10; i++) {
+        const timeoutId = setTimeout(() => {
           const msg = Buffer.from([0]);
           client.send(msg, peerNatPort, peerIp, (err) => {
             if (err) console.error('送信エラー:', err);
             // else console.log(`send holepunch ${i + 1}: ${peerIp}:${peerNatPort}`);
           });
-        }, i * 200);
+        }, i * 190);
+        punchTimeouts.push(timeoutId);
       }
       punched = true; // 二重処理防止
     } else {
       // 2回目以降 → 相手からの応答
       // 既に同じ相手と計測をした場合、holepunchが既に実行中の可能性があるので検知
       if (msg[0] === 0x00 && rinfo.address === peerIp) {
+        punchTimeouts.forEach(clearTimeout);
+        punchTimeouts = [];
         console.log(`recv holepunch reply from ${peerIp}`);
         punched = true;
         client.removeListener('message', holepunchProcess);
