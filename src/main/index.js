@@ -64,6 +64,11 @@ ipcMain.on('do-ping-ap', async (event, arg) => {
         }, i * 190);
         punchTimeouts.push(timeoutId);
       }
+      punchTimeouts.push(setTimeout(() => {
+        console.log('ホールパンチ失敗、ダメ元で計測');
+        client.removeListener('message', holepunchProcess);
+        ipcMain.emit('do-ping', event, `${peerIp}:${peerNatPort}`);
+      }, 2000)); // 2秒後にタイムアウト
       punched = true; // 二重処理防止
     } else {
       // 2回目以降 → 相手からの応答
