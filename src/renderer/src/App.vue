@@ -56,7 +56,7 @@ const option = reactive({
   tooltip: {
     trigger: 'axis',
     formatter: function (params) {
-      return params[0].value + ' F';
+      return parseInt(params[0].value * 100) / 100 + ' F';
     },
   },
   xAxis: {
